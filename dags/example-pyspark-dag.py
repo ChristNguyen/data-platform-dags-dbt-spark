@@ -24,7 +24,8 @@ class Config:
             'spark.hadoop.fs.s3a.path.style.access': 'true',
             'spark.hadoop.fs.s3a.connection.ssl.enabled': 'false',
             'spark.hadoop.fs.s3a.access.key': 'minio',
-            'spark.hadoop.fs.s3a.secret.key': 'minio123'
+            'spark.hadoop.fs.s3a.secret.key': 'minio123',
+            'spark.jars.ivy': '/tmp'
         })
         return self
         
