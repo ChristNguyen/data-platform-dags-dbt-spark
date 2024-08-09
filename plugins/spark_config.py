@@ -19,4 +19,5 @@ class Config:
             'spark.hadoop.fs.s3a.access.key': 'minio',
             'spark.hadoop.fs.s3a.secret.key': 'minio123'
         })
+        return self
         

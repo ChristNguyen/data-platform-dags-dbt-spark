@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-# from plugins.spark_config import Config
+from plugins.spark_config import Config
 
 DAG_NAME = "dag_spark_operator"
 default_args = {
@@ -42,7 +42,7 @@ spark_submit_task = SparkSubmitOperator(
     application='s3a://dataplatform/spark-job/pi.py',
     name='airflow-pyspark-job',
     verbose=True,
-    conf={},
+    conf=Config().config_spark().build(),
     dag=dag
 )
 
