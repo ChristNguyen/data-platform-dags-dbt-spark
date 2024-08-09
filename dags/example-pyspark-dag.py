@@ -17,8 +17,9 @@ dag = DAG(
     DAG_NAME,
     default_args=default_args,
     description="An example DAG with SparkOperator",
-    schedule="*/10 * * * *",
-    catchup=False
+    schedule=None,
+    catchup=False,
+    max_active_runs=1
 )
 
 
