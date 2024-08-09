@@ -35,10 +35,10 @@ task1 = PythonOperator(
 )
 
 spark_submit_task = SparkSubmitOperator(
-    task_id='spark_submit_task',
+    task_id='example_py_spark_pi',
     conn_id='spark_default',
     deploy_mode="cluster",
-    application='s3a://thangdv5/spark/spark-io.py',
+    application='s3a://dataplatform/spark-job/pi.py',
     name='airflow-pyspark-job',
     verbose=True,
     conf={},
