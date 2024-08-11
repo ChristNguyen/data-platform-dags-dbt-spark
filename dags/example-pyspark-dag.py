@@ -16,7 +16,7 @@ class Config:
         self.dict.update({
             'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.2',
             'spark.executorEnv.LD_PRELOAD':'/opt/bitnami/common/lib/libnss_wrapper.so',
-            'spark.kubernetes.namespace':'infra',
+            'spark.kubernetes.namespace':'spark-operator',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
             'spark.hadoop.fs.s3a.impl': 'org.apache.hadoop.fs.s3a.S3AFileSystem',
             'spark.hadoop.fs.s3a.endpoint': 'https://myminio-hl.data-platform-tenant.svc.cluster.local:9000',
