@@ -26,13 +26,13 @@ class Config:
             'spark.hadoop.fs.s3a.access.key': 'minio',
             'spark.hadoop.fs.s3a.secret.key': 'minio123',
             'spark.jars.ivy': '/tmp',
-            'conf spark.kubernetes.driver.secrets.kubeconfig':'/secret', \
-            'conf spark.kubernetes.executor.secrets.kubeconfig':'/secret', \
-            'conf spark.kubernetes.authenticate.driver.serviceAccountName':'my-release-spark', \
-            'conf spark.kubernetes.authenticate.executor.serviceAccountName':'my-release-spark', \
-            'conf spark.driver.extraJavaOptions=-Dcom.sun.net.ssl.checkRevocation':'false', \
-            'conf spark.executor.extraJavaOptions=-Dcom.sun.net.ssl.checkRevocation':'false', \
-            'conf spark.ssl.noCertVerification':'true'
+            'spark.kubernetes.driver.secrets.kubeconfig':'/secret', \
+            'spark.kubernetes.executor.secrets.kubeconfig':'/secret', \
+            'spark.kubernetes.authenticate.driver.serviceAccountName':'my-release-spark', \
+            'spark.kubernetes.authenticate.executor.serviceAccountName':'my-release-spark', \
+            'spark.driver.extraJavaOptions=-Dcom.sun.net.ssl.checkRevocation':'false', \
+            'spark.executor.extraJavaOptions=-Dcom.sun.net.ssl.checkRevocation':'false', \
+            'spark.ssl.noCertVerification':'true'
         })
         return self
         
