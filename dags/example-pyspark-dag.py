@@ -14,7 +14,7 @@ class Config:
     
     def config_spark(self):
         self.dict.update({
-            'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1',
+            'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.1',
             'spark.executorEnv.LD_PRELOAD':'/opt/bitnami/common/lib/libnss_wrapper.so',
             'spark.kubernetes.namespace':'infra',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
@@ -67,7 +67,7 @@ spark_submit_task = SparkSubmitOperator(
     task_id='example_py_spark_pi',
     conn_id='spark_default',
     deploy_mode="cluster",
-    application='s3a://dataplatform/spark-jobs/pi.py',
+    application='local:///opt/spark/examples/src/main/python/pi.py',
     name='airflow-pyspark-job',
     verbose=True,
     conf=Config().config_spark().build(),
