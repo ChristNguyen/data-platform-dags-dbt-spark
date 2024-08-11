@@ -14,7 +14,7 @@ class Config:
     
     def config_spark(self):
         self.dict.update({
-            'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.1',
+            'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.2',
             'spark.executorEnv.LD_PRELOAD':'/opt/bitnami/common/lib/libnss_wrapper.so',
             'spark.kubernetes.namespace':'infra',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
