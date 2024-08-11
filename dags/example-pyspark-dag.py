@@ -19,7 +19,7 @@ class Config:
             'spark.kubernetes.namespace':'infra',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
             'spark.hadoop.fs.s3a.impl': 'org.apache.hadoop.fs.s3a.S3AFileSystem',
-            'spark.hadoop.fs.s3a.endpoint': 'myminio-hl.data-platform-tenant.svc.cluster.local:9000',
+            'spark.hadoop.fs.s3a.endpoint': 'https://myminio-hl.data-platform-tenant.svc.cluster.local:9000',
             'spark.hadoop.fs.s3a.fast.upload': 'true',
             'spark.hadoop.fs.s3a.path.style.access': 'true',
             'spark.hadoop.fs.s3a.connection.ssl.enabled': 'false',
