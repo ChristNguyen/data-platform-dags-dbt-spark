@@ -6,7 +6,7 @@ from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOpe
 from spark_config import Config
 
 
-DAG_NAME = "dag_spark_operator"
+DAG_NAME = "test_local_pi"
 default_args = {
     "depends_on_past": False,
     "start_date": datetime(2023, 1, 1),

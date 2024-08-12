@@ -8,7 +8,7 @@ from spark_config import Config
 
 
 
-DAG_NAME = "minio_dag_spark_operator"
+DAG_NAME = "test_s3_pi"
 default_args = {
     "depends_on_past": False,
     "start_date": datetime(2023, 1, 1),
