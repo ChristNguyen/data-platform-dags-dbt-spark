@@ -22,6 +22,7 @@ dag = DAG(
     default_args=default_args,
     description="An example DAG with SparkOperator",
     schedule=None,
+    tags=['test'],
     catchup=False,
     max_active_runs=1
 )
@@ -40,7 +41,7 @@ task1 = PythonOperator(
 )
 
 spark_submit_task = SparkSubmitOperator(
-    task_id='example_py_spark_pi',
+    task_id='test-pi-s3-spark',
     conn_id='spark_default',
     deploy_mode="cluster",
     application='s3a://dataplatform/spark-jobs/pi.py',
