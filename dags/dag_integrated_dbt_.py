@@ -5,9 +5,28 @@ from airflow.operators.python import PythonOperator
 
 
 from cosmos import DbtTaskGroup, ProjectConfig
+from cosmos import ProfileConfig
+from cosmos.profiles import PostgresUserPasswordProfileMapping, SparkThriftProfileMapping
 
-from include.profiles import warehouse_db
-from include.constants import shop_analytics_path, venv_execution_config
+from pathlib import Path
+from cosmos import ExecutionConfig
+
+shop_analytics_path = Path("/opt/airflow/dbt/shop_analytics")
+dbt_executable = Path("/opt/airflow/venv/bin/dbt")
+
+venv_execution_config = ExecutionConfig(
+    dbt_executable_path=str(dbt_executable),
+)
+
+
+warehouse_db = ProfileConfig(
+    profile_name="warehouse_db",
+    target_name="dev",
+    profile_mapping=PostgresUserPasswordProfileMapping(
+        conn_id="warehouse_db",
+        profile_args={"schema": "dbt"},
+    )
+)
 
 
 @dag(
