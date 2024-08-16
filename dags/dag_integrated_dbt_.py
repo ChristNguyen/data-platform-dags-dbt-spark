@@ -11,7 +11,7 @@ from cosmos.profiles import PostgresUserPasswordProfileMapping, SparkThriftProfi
 from pathlib import Path
 from cosmos import ExecutionConfig
 
-shop_analytics_path = Path("/opt/bitnami/airflow/plugins/dbt/shop_analytics")
+shop_analytics_path = Path("/opt/bitnami/airflow/plugins/git_data-platform/shop_analytics/")
 dbt_executable = Path("/opt/bitnami/airflow/venv/bin/dbt")
 
 venv_execution_config = ExecutionConfig(
