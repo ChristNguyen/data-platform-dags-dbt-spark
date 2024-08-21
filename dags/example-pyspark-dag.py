@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-from spark_config import Config
+from git_plugins.spark_config import Config
 
 
 DAG_NAME = "test_local_pi"
