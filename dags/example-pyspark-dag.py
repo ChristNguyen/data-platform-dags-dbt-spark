@@ -40,7 +40,7 @@ task1 = PythonOperator(
 
 spark_submit_task = SparkSubmitOperator(
     task_id='test-pi-local-spark',
-    conn_id='spark_default',
+    conn_id='spark',
     deploy_mode="cluster",
     application='local:///opt/spark/examples/src/main/python/pi.py',
     name='airflow-pyspark-job',
