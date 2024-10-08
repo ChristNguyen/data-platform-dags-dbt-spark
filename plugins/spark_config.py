@@ -1,36 +1,42 @@
+from airflow.hooks.base import BaseHook
+import json
 
 class Config:
     def __init__(self) -> None:
-        self.dict= {}
-        pass
+        self.dict = {}
+    
     def build(self):
         return self.dict
-    
+
     def config_s3(self):
+        # Lấy kết nối từ Airflow
+        s3_conn = BaseHook.get_connection('minio_s3')
+
+        extra = json.loads(s3_conn.extra)
+
         self.dict.update({
             'spark.hadoop.fs.s3a.impl': 'org.apache.hadoop.fs.s3a.S3AFileSystem',
-            'spark.hadoop.fs.s3a.endpoint': 'http://dataplatform-hl.data-platform-tenant.svc.cluster.local:9000',
+            'spark.hadoop.fs.s3a.endpoint': extra['endpoint_url'],  
             'spark.hadoop.fs.s3a.fast.upload': 'true',
             'spark.hadoop.fs.s3a.path.style.access': 'true',
             'spark.hadoop.fs.s3a.connection.ssl.enabled': 'false',
-            'spark.hadoop.fs.s3a.access.key': 'minio',
-            'spark.hadoop.fs.s3a.secret.key': 'minio123'
+            'spark.hadoop.fs.s3a.access.key': extra['aws_access_key_id'],  
+            'spark.hadoop.fs.s3a.secret.key': extra['aws_secret_access_key'] 
         })
-        return self
+
+
     
     def config_spark(self):
         self.dict.update({
             'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.2',
-            'spark.executorEnv.LD_PRELOAD':'/opt/bitnami/common/lib/libnss_wrapper.so',
-            'spark.kubernetes.namespace':'infra',
+            'spark.kubernetes.namespace':'airflow',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
             'spark.jars.ivy': '/tmp',
-            'spark.kubernetes.driver.secrets.kubeconfig':'/secret', \
-            'spark.kubernetes.executor.secrets.kubeconfig':'/secret', \
-            'spark.kubernetes.authenticate.driver.serviceAccountName':'spark', \
-            'spark.kubernetes.authenticate.executor.serviceAccountName':'spark', \
+            'spark.kubernetes.authenticate.driver.serviceAccountName':'airflow', \
+            'spark.kubernetes.authenticate.executor.serviceAccountName':'airflow', \
             'spark.driver.extraJavaOptions=-Dcom.sun.net.ssl.checkRevocation':'false', \
             'spark.executor.extraJavaOptions=-Dcom.sun.net.ssl.checkRevocation':'false', \
             'spark.ssl.noCertVerification':'true'
         })
         return self
+
