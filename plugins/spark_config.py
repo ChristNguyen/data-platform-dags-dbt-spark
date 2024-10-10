@@ -24,6 +24,9 @@ class Config:
             'spark.hadoop.fs.s3a.secret.key': extra['aws_secret_access_key'] 
         })
 
+        return self  # Trả về self để cho phép chain phương thức
+
+
 
     
     def config_spark(self):
