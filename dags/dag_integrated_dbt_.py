@@ -6,13 +6,13 @@ from airflow.operators.python import PythonOperator
 
 from cosmos import DbtTaskGroup, ProjectConfig
 from cosmos import ProfileConfig
-from cosmos.profiles import PostgresUserPasswordProfileMapping, SparkThriftProfileMapping
+from cosmos.profiles import PostgresUserPasswordProfileMapping
 
 from pathlib import Path
 from cosmos import ExecutionConfig
 
-shop_analytics_path = Path("/opt/bitnami/airflow/dags/git_dbt/shop_analytics/")
-dbt_executable = Path("/opt/bitnami/airflow/venv/bin/dbt")
+shop_analytics_path = Path("/opt/airflow/dags/repo/dbt/shop_analytics/")
+dbt_executable = Path("/home/airflow/.local/bin/dbt")
 
 venv_execution_config = ExecutionConfig(
     dbt_executable_path=str(dbt_executable),

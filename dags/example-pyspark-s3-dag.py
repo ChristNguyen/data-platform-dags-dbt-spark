@@ -1,11 +1,8 @@
-
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-from git_plugins.spark_config import Config
-        
-
+from plugins.spark_config import Config
 
 
 DAG_NAME = "test_s3_pi"
@@ -22,9 +19,9 @@ dag = DAG(
     default_args=default_args,
     description="An example DAG with SparkOperator",
     schedule=None,
-    tags=['test'],
+    tags=["test"],
     catchup=False,
-    max_active_runs=1
+    max_active_runs=1,
 )
 
 
@@ -41,14 +38,14 @@ task1 = PythonOperator(
 )
 
 spark_submit_task = SparkSubmitOperator(
-    task_id='test-pi-s3-spark',
-    conn_id='spark',
+    task_id="test-pi-s3-spark",
+    conn_id="spark",
     deploy_mode="cluster",
-    application='s3a://dataplatform/spark-jobs/pi.py',
-    name='airflow-pyspark-job',
+    application="s3a://dataplatform/spark-jobs/pi.py",
+    name="airflow-pyspark-job",
     verbose=True,
     conf=Config().config_spark().config_s3().build(),
-    dag=dag
+    dag=dag,
 )
 
 # Set the task dependencies
