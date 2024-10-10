@@ -11,6 +11,7 @@ class Config:
     def config_s3(self):
         # Lấy kết nối từ Airflow
         s3_conn = BaseHook.get_connection('minio_s3')
+        print(f"Extra config: {s3_conn.extra}")  # Debugging output
 
         extra = json.loads(s3_conn.extra)
 
