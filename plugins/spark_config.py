@@ -4,7 +4,6 @@ import json
 class Config:
     def __init__(self) -> None:
         self.dict = {}
-        self.extra = {}  # Khởi tạo extra để sử dụng trong các phương thức khác
 
     def build(self):
         return self.dict
@@ -13,24 +12,31 @@ class Config:
         # Lấy kết nối từ Airflow
         s3_conn = BaseHook.get_connection('minio_s3')
 
-        self.extra = json.loads(s3_conn.extra)  # Lưu giá trị extra vào thuộc tính self.extra
+        # Giải mã trường extra từ kết nối
+        extra = json.loads(s3_conn.extra)
 
+        # Cập nhật cấu hình S3 (MinIO)
         self.dict.update({
             'spark.hadoop.fs.s3a.impl': 'org.apache.hadoop.fs.s3a.S3AFileSystem',
-            'spark.hadoop.fs.s3a.endpoint': self.extra['endpoint_url'],  
+            'spark.hadoop.fs.s3a.endpoint': extra['endpoint_url'],  
             'spark.hadoop.fs.s3a.fast.upload': 'true',
             'spark.hadoop.fs.s3a.path.style.access': 'true',
             'spark.hadoop.fs.s3a.connection.ssl.enabled': 'false',
-            'spark.hadoop.fs.s3a.access.key': self.extra['aws_access_key_id'],  
-            'spark.hadoop.fs.s3a.secret.key': self.extra['aws_secret_access_key']
+            'spark.hadoop.fs.s3a.access.key': extra['aws_access_key_id'],  
+            'spark.hadoop.fs.s3a.secret.key': extra['aws_secret_access_key']
         })
 
         return self  # Trả về self để cho phép chain phương thức
 
     def config_spark(self):
-        # Đảm bảo rằng config_s3 đã được gọi trước để lấy thông tin từ extra
+        # Lấy kết nối từ Airflow
+        s3_conn = BaseHook.get_connection('minio_s3')
+
+        # Giải mã trường extra từ kết nối
+        extra = json.loads(s3_conn.extra)
+
+        # Cập nhật cấu hình Spark
         self.dict.update({
-            # Kubernetes-specific configurations
             'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.2',
             'spark.kubernetes.namespace': 'airflow',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
@@ -43,15 +49,15 @@ class Config:
             'spark.executor.extraJavaOptions': '-Dcom.sun.net.ssl.checkRevocation=false',
             'spark.ssl.noCertVerification': 'true',
 
-            # S3 (MinIO) configurations
-            'spark.hadoop.fs.s3a.access.key': self.extra['aws_access_key_id'],  # Sử dụng self.extra
-            'spark.hadoop.fs.s3a.secret.key': self.extra['aws_secret_access_key'],  # Sử dụng self.extra
-            'spark.hadoop.fs.s3a.endpoint': self.extra['endpoint_url'],  # Sử dụng self.extra
+            # S3 configurations (MinIO) - sử dụng extra trực tiếp từ kết nối
+            'spark.hadoop.fs.s3a.access.key': extra['aws_access_key_id'],
+            'spark.hadoop.fs.s3a.secret.key': extra['aws_secret_access_key'],
+            'spark.hadoop.fs.s3a.endpoint': extra['endpoint_url'],
             'spark.hadoop.fs.s3a.impl': 'org.apache.hadoop.fs.s3a.S3AFileSystem',
             'spark.hadoop.fs.s3a.path.style.access': 'true',
             'spark.hadoop.fs.s3a.connection.ssl.enabled': 'false',
 
-            # Spark event logging
+            # Event logging and history configurations
             'spark.eventLog.enabled': 'true',
             'spark.eventLog.dir': 's3a://dataplatform/spark-history/',
             'spark.history.fs.logDirectory': 's3a://dataplatform/spark-history/'
