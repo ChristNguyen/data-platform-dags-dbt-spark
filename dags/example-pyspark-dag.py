@@ -44,7 +44,25 @@ spark_submit_task = SparkSubmitOperator(
     application="local:///opt/spark/examples/src/main/python/pi.py",
     name="airflow-pyspark-job",
     verbose=True,
-    conf=Config().config_spark().build(),
+    # conf=Config().config_spark().build(),
+    conf={
+    'spark.master': 'k8s://https://kubernetes.default.svc:443',  # Master k8s
+    'spark.deploy.mode': 'cluster',  # Chạy trong chế độ cluster
+    'spark.kubernetes.container.image': 'docker-dso-cloud.abbank.vn/data-platform/dev/dataplatform_pyspark:v1.2.2',  # Image cho Spark
+    'spark.kubernetes.container.image.pullSecrets': 'regcred',  # Secret để pull image
+    'spark.kubernetes.namespace': 'spark',  # Namespace Kubernetes
+    'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark',
+    'spark.kubernetes.authenticate.executor.serviceAccountName': 'spark',
+    'spark.hadoop.fs.s3a.access.key': 'minio',
+    'spark.hadoop.fs.s3a.secret.key': 'minio123',
+    'spark.hadoop.fs.s3a.endpoint': 'http://minio.data-platform-tenant.svc.cluster.local:80',
+    'spark.hadoop.fs.s3a.impl': 'org.apache.hadoop.fs.s3a.S3AFileSystem',
+    'spark.hadoop.fs.s3a.path.style.access': 'true',
+    'spark.eventLog.enabled': 'true',
+    'spark.eventLog.dir': 's3a://dataplatform/spark-history/',
+    'spark.history.fs.logDirectory': 's3a://dataplatform/spark-history/',
+    'spark.hadoop.fs.s3a.connection.ssl.enabled': 'false'
+},
     dag=dag,
 )
 
