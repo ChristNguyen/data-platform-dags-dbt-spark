@@ -41,8 +41,8 @@ class Config:
             'spark.kubernetes.namespace': 'airflow',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark-jobs',
             'spark.jars.ivy': '/tmp',
-            'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark',
-            'spark.kubernetes.authenticate.executor.serviceAccountName': 'spark',
+            'spark.kubernetes.authenticate.driver.serviceAccountName': 'airflow',
+            'spark.kubernetes.authenticate.executor.serviceAccountName': 'airflow',
 
             # Java options
             'spark.driver.extraJavaOptions': '-Dcom.sun.net.ssl.checkRevocation=false',
