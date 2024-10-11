@@ -39,10 +39,10 @@ class Config:
         self.dict.update({
             'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.2',
             'spark.kubernetes.namespace': 'airflow',
-            'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark',
+            'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark-jobs',
             'spark.jars.ivy': '/tmp',
-            'spark.kubernetes.authenticate.driver.serviceAccountName': 'airflow',
-            'spark.kubernetes.authenticate.executor.serviceAccountName': 'airflow',
+            'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark',
+            'spark.kubernetes.authenticate.executor.serviceAccountName': 'spark',
 
             # Java options
             'spark.driver.extraJavaOptions': '-Dcom.sun.net.ssl.checkRevocation=false',
