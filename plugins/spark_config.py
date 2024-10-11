@@ -37,7 +37,8 @@ class Config:
 
         # Cập nhật cấu hình Spark
         self.dict.update({
-            'spark.kubernetes.container.image': 'docker.io/asc686f61/dataplatform_pyspark:v1.2',
+            'spark.kubernetes.container.image': 'docker-dso-cloud.abbank.vn/data-platform/dev/dataplatform_pyspark:v1.2.2',
+            'spark.kubernetes.container.image.pullSecrets': 'regcred'
             'spark.kubernetes.namespace': 'airflow',
             'spark.kubernetes.file.upload.path': 's3a://dataplatform/spark-jobs',
             'spark.jars.ivy': '/tmp',
